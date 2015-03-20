@@ -3,18 +3,18 @@
 ______________________________________________________________________
 
 This is a fork of  phonegap-build/PushPlugin (https://github.com/phonegap-build/PushPlugin).
-	### I changed the notifications for android. What has changed:
-	The plugin can receive a user id string.
-	The plugin uses this id to: compare with the user id contained in the received pushMessage.
+### I changed the notifications for android. What has changed:
+The plugin can receive a user id string.
+The plugin uses this id to: compare with the user id contained in the received pushMessage.
 
-	If the PushMessage does not contain the user_id field then a notification is generated.
+If the PushMessage does not contain the user_id field then a notification is generated.
 
-	If the PushMensagem contains the user_id field:
-	   If the user_id provided by the application equals push user_id, then that message will generate a notification, otherwise the message will be disregarded.
+If the PushMensagem contains the user_id field:
+   If the user_id provided by the application equals push user_id, then that message will generate a notification, otherwise the message will be disregarded.
 
-	When the user clicks on the bar notification: the method "onNotification (e)" will be called and will contain the action 'message'.
+When the user clicks on the bar notification: the method "onNotification (e)" will be called and will contain the action 'message'.
 
-	If the messages contain the 'notify' field with the value false: it will not be generated a notification. The method "onNotification (e)" will be called, but only WHEN THE APP IS OPEN OR IS OPENED, with the action 'message' and the 'foreground' field with value true.
+If the messages contain the 'notify' field with the value false: it will not be generated a notification. The method "onNotification (e)" will be called, but only WHEN THE APP IS OPEN OR IS OPENED, with the action 'message' and the 'foreground' field with value true.
 ______________________________________________________________________
 
 ### DESCRIPTION
