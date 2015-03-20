@@ -12,13 +12,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.content.SharedPreferences;
 
 import com.google.android.gcm.GCMBaseIntentService;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GCMBaseIntentService {
 
-	private static final String TAG = "GCMIntentService";
+	private static final String TAG = "chromium.GCMIntentService";
 	
 	public GCMIntentService() {
 		super("GCMIntentService");
@@ -57,24 +58,27 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	protected void onMessage(Context context, Intent intent) {
-		Log.d(TAG, "onMessage - context: " + context);
-
-		// Extract the payload from the message
 		Bundle extras = intent.getExtras();
+		Log.i(TAG, "..........   onMessage   ..............");
 		if (extras != null)
 		{
-			// if we are in the foreground, just surface the payload, else post it to the statusbar
-            if (PushPlugin.isInForeground()) {
-				extras.putBoolean("foreground", true);
-                PushPlugin.sendExtras(extras);
-			}
-			else {
-				extras.putBoolean("foreground", false);
+			final SharedPreferences share = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE);
+			String atual_id_user=  share.getString("id_user", null);
+            String id_user = extras.getString("id_user", null);
 
-                // Send a notification if there is a message
-                if (extras.getString("message") != null && extras.getString("message").length() != 0) {
-                    createNotification(context, extras);
-                }
+            if ( id_user==null || (null!=atual_id_user && atual_id_user.equals(id_user) )){
+            	Log.i(TAG, "**atual_id_user: "+atual_id_user+". ** id_user:"+id_user);
+            	if(extras.getBoolean("notify", true)){
+	                if (extras.getString("title") != null && extras.getString("title").length() != 0) {
+	                    createNotification(context, extras);
+	                }
+            	}else{				
+					extras.putBoolean("foreground", true);
+	                PushPlugin.sendExtras(extras);
+            	}
+            }else{
+            	Log.w(TAG, "id de usuario nao confere");
+            	Log.w(TAG, "id de usuario nao confere");
             }
         }
 	}
@@ -109,6 +113,10 @@ public class GCMIntentService extends GCMBaseIntentService {
 				.setAutoCancel(true);
 
 		String message = extras.getString("message");
+		if(null==message){
+			message = extras.getString("description");			
+		}
+
 		if (message != null) {
 			mBuilder.setContentText(message);
 		} else {

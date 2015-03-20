@@ -1,5 +1,6 @@
 package com.plugin.gcm;
 
+import android.content.SharedPreferences;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import java.util.Iterator;
 
 public class PushPlugin extends CordovaPlugin {
 	public static final String TAG = "PushPlugin";
+	private SharedPreferences sharedPref;
 
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
@@ -53,6 +55,15 @@ public class PushPlugin extends CordovaPlugin {
 
 			try {
 				JSONObject jo = data.getJSONObject(0);
+				
+				final SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE).edit();
+				if(jo.has("id_user")){
+					String value = (String) jo.get("id_user");
+					editor.putString("id_user", value);
+				}else{
+					editor.remove("text");
+				}
+				editor.commit();
 
 				gWebView = this.webView;
 				Log.v(TAG, "execute: jo=" + jo.toString());
