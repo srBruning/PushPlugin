@@ -27,18 +27,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 
 	@Override
 	public void onRegistered(Context context, String regId) {
-
-		Log.v(TAG, "onRegistered: "+ regId);
-
+		Log.v(TAG, "*** onRegistered");
 		JSONObject json;
-
 		try
 		{
 			json = new JSONObject().put("event", "registered");
 			json.put("regid", regId);
-
-			Log.v(TAG, "onRegistered: " + json.toString());
-
 			// Send this JSON data to the JavaScript application above EVENT should be set to the msg type
 			// In this case this is the registration ID
 			PushPlugin.sendJavascript( json );
@@ -77,7 +71,6 @@ public class GCMIntentService extends GCMBaseIntentService {
 	                PushPlugin.sendExtras(extras);
             	}
             }else{
-            	Log.w(TAG, "id de usuario nao confere");
             	Log.w(TAG, "id de usuario nao confere");
             }
         }

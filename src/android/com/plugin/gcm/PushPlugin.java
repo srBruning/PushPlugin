@@ -51,8 +51,6 @@ public class PushPlugin extends CordovaPlugin {
 
 		if (REGISTER.equals(action)) {
 
-			Log.v(TAG, "execute: data=" + data.toString());
-
 			try {
 				JSONObject jo = data.getJSONObject(0);
 				
