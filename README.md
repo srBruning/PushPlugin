@@ -1,5 +1,7 @@
 # Cordova Push Notifications Plugin for Android, iOS, WP8, Windows8, BlackBerry 10 and Amazon Fire OS
-----------------------------------------
+
+______________________________________________________________________
+
 This is a fork of  phonegap-build/PushPlugin (https://github.com/phonegap-build/PushPlugin).
 ## I changed the notifications for android. What has changed:
 The plugin can receive a user id string.
@@ -13,8 +15,9 @@ If the PushMensagem contains the user_id field:
 When the user clicks on the bar notification: the method "onNotification (e)" will be called and will contain the action 'message'.
 
 If the messages contain the 'notify' field with the value false: it will not be generated a notification. The method "onNotification (e)" will be called, but only WHEN THE APP IS OPEN OR IS OPENED, with the action 'message' and the 'foreground' field with value true.
----------------------------------------
-## DESCRIPTION
+______________________________________________________________________
+
+### DESCRIPTION
 
 This plugin is for use with [Cordova](http://incubator.apache.org/cordova/), and allows your application to receive push notifications on Amazon Fire OS, Android, iOS, Windows Phone and Windows8 devices.
 * The Amazon Fire OS implementation uses [Amazon's ADM(Amazon Device Messaging) service](https://developer.amazon.com/sdk/adm.html).
