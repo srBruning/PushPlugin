@@ -61,7 +61,7 @@ public class GCMIntentService extends GCMBaseIntentService {
             String id_user = extras.getString("id_user", null);
 
             if ( id_user==null || (null!=atual_id_user && atual_id_user.equals(id_user) )){
-            	Log.i(TAG, "**atual_id_user: "+atual_id_user+". ** id_user:"+id_user);
+            	Log.i(TAG, "** atual_id_user equals check id_user");
             	if(extras.getBoolean("notify", true)){
 	                if (extras.getString("title") != null && extras.getString("title").length() != 0) {
 	                    createNotification(context, extras);
