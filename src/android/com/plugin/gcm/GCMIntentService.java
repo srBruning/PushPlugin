@@ -58,8 +58,12 @@ public class GCMIntentService extends GCMBaseIntentService {
 		{
 			final SharedPreferences share = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE);
 			String atual_id_user=  share.getString("id_user", null);
+			boolean is_registred=  share.getBoolean("device_registrado", false);
             String id_user = extras.getString("id_user", null);
-
+            if(!is_registred){
+            	Log.w(TAG, "device not registred ");  
+            	return ;          	
+            }
             if ( id_user==null || (null!=atual_id_user && atual_id_user.equals(id_user) )){
             	Log.i(TAG, "** atual_id_user equals check id_user");
             	if(extras.getBoolean("notify", true)){

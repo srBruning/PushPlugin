@@ -54,14 +54,7 @@ public class PushPlugin extends CordovaPlugin {
 			try {
 				JSONObject jo = data.getJSONObject(0);
 				
-				final SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE).edit();
-				if(jo.has("id_user")){
-					String value = (String) jo.get("id_user");
-					editor.putString("id_user", value);
-				}else{
-					editor.remove("text");
-				}
-				editor.commit();
+				
 
 				gWebView = this.webView;
 				Log.v(TAG, "execute: jo=" + jo.toString());
@@ -74,6 +67,16 @@ public class PushPlugin extends CordovaPlugin {
 				GCMRegistrar.register(getApplicationContext(), gSenderID);
 				result = true;
 				callbackContext.success();
+				
+				final SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE).edit();
+				if(jo.has("id_user")){
+					String value = (String) jo.get("id_user");
+					editor.putString("id_user", value);
+				}else{
+					editor.remove("id_user");
+				}
+				editor.putBoolean("device_registrado", true);
+				editor.commit();
 			} catch (JSONException e) {
 				Log.e(TAG, "execute: Got JSON Exception " + e.getMessage());
 				result = false;
@@ -87,6 +90,11 @@ public class PushPlugin extends CordovaPlugin {
 			}
 
 		} else if (UNREGISTER.equals(action)) {
+
+			final SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE).edit();
+			editor.putBoolean("device_registrado", false);
+			editor.remove("id_user");
+			editor.commit();
 
 			GCMRegistrar.unregister(getApplicationContext());
 
