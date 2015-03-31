@@ -26,6 +26,7 @@ public class PushPlugin extends CordovaPlugin {
 
 	public static final String REGISTER = "register";
 	public static final String UNREGISTER = "unregister";
+	public static final String UNREGISTER_USER = "unregister_user";
 	public static final String EXIT = "exit";
 
 	private static CordovaWebView gWebView;
@@ -99,6 +100,16 @@ public class PushPlugin extends CordovaPlugin {
 			GCMRegistrar.unregister(getApplicationContext());
 
 			Log.v(TAG, "UNREGISTER");
+			result = true;
+			callbackContext.success();
+		}else if (UNREGISTER_USER.equals(action)) {
+
+			final SharedPreferences.Editor editor = getApplicationContext().getSharedPreferences("PushPlugin", Context.MODE_PRIVATE).edit();
+			editor.putBoolean("device_registrado", false);
+			editor.remove("id_user");
+			editor.commit();
+
+			Log.v(TAG, "UNREGISTER_USER");
 			result = true;
 			callbackContext.success();
 		} else {
